@@ -20,22 +20,35 @@ public class MovementController : MonoBehaviour
 
     Vector2 relativeTransform;
 
+    public ParticleController particleController;
+
+    public bool isOnPlatform;
+    public Rigidbody2D platformRb;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
     private void Start()
     {
-        UpdateRelativeTRansform();
+        UpdateRelativeTransform();
     }
 
     private void FixedUpdate()
     {
-        SpeedMultiplier();
+        UpdateSpeedMultiplier();
         float targerSpeed = speed * speedMultiplier*relativeTransform.x;
-        rb.velocity = new Vector2(targerSpeed, rb.velocity.y);
+        if (isOnPlatform)
+        {
+            rb.velocity = new Vector2(targerSpeed+platformRb.velocity.x, rb.velocity.y);
+        }
 
-        isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.06f, 0.6f), 0, wallLayer);
+        else
+        {
+            rb.velocity = new Vector2(targerSpeed, rb.velocity.y);
+        }
+
+        isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.06f, 0.55f), 0, wallLayer);
 
         if (isWallTouch)
         {
@@ -45,12 +58,12 @@ public class MovementController : MonoBehaviour
 
     public void Flip()
     {
+        particleController.PlayTouchParticle(wallCheckPoint.position);
         transform.Rotate(0, 180, 0);
-        relativeTransform = transform.InverseTransformVector(Vector2.one);
-        UpdateRelativeTRansform();
+        UpdateRelativeTransform();
     }
 
-    void UpdateRelativeTRansform()
+    void UpdateRelativeTransform()
     {
         relativeTransform = transform.InverseTransformVector(Vector2.one);
     }
@@ -66,7 +79,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    void SpeedMultiplier()
+    void UpdateSpeedMultiplier()
     {
         if (btnPressed && speedMultiplier < 1)
         {
