@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour
 
     IEnumerator Respawn(float duration)
     {
-        playerRb.simulated = false;
         playerRb.velocity = new Vector2(0, 0);
+        playerRb.simulated = false;
         transform.localScale = new Vector3(0, 0, 0);
         yield return new WaitForSeconds(duration);
         transform.position = checkpointPos;

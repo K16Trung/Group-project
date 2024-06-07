@@ -9,7 +9,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] int speed;
     float speedMultiplier;
 
-    [Range(1,10)]
+    [Range(1, 10)]
     [SerializeField] float acceleration;
 
     bool btnPressed;
@@ -37,10 +37,10 @@ public class MovementController : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateSpeedMultiplier();
-        float targerSpeed = speed * speedMultiplier*relativeTransform.x;
+        float targerSpeed = speed * speedMultiplier * relativeTransform.x;
         if (isOnPlatform)
         {
-            rb.velocity = new Vector2(targerSpeed+platformRb.velocity.x, rb.velocity.y);
+            rb.velocity = new Vector2(targerSpeed + platformRb.velocity.x, rb.velocity.y);
         }
 
         else
@@ -67,7 +67,7 @@ public class MovementController : MonoBehaviour
     {
         relativeTransform = transform.InverseTransformVector(Vector2.one);
     }
-    public void Move (InputAction.CallbackContext value)
+    public void Move(InputAction.CallbackContext value)
     {
         if (value.started)
         {
@@ -83,11 +83,11 @@ public class MovementController : MonoBehaviour
     {
         if (btnPressed && speedMultiplier < 1)
         {
-            speedMultiplier += Time.deltaTime*acceleration;
+            speedMultiplier += Time.deltaTime * acceleration;
         }
         else if (!btnPressed && speedMultiplier > 0)
         {
-            speedMultiplier -= Time.deltaTime*acceleration;
+            speedMultiplier -= Time.deltaTime * acceleration;
             if (speedMultiplier < 0) speedMultiplier = 0;
         }
     }

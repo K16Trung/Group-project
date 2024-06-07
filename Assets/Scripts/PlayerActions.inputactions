@@ -3,12 +3,12 @@
     "maps": [
         {
             "name": "Player",
-            "id": "b0df3c91-4e24-4cde-9907-ba82d5b9727e",
+            "id": "236a2dda-e199-4ec6-b469-58e2d54df21c",
             "actions": [
                 {
                     "name": "Movement",
                     "type": "Button",
-                    "id": "e4e4858a-159e-4efc-814c-926b67a02f69",
+                    "id": "4e63fbc6-1390-479b-b028-2533567dd1b7",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -18,7 +18,7 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "30c93a51-4e87-4c61-86ee-1453eda7e4c2",
+                    "id": "9896aa64-b98b-4e01-bed8-692dc1961815",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
