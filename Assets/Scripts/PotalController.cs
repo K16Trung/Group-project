@@ -9,11 +9,13 @@ public class PotalController : MonoBehaviour
     Animation anim;
     Rigidbody2D playerRb;
 
+    AudioManager audioManager;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         anim = player.GetComponent<Animation>();
         playerRb = player.GetComponent<Rigidbody2D>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,6 +30,7 @@ public class PotalController : MonoBehaviour
     }
     IEnumerator PortalIn()
     {
+        audioManager.PlaySFX(audioManager.portalIn);
         playerRb.simulated = false;
         anim.Play("Portal In");
         StartCoroutine(MoveInPortal());
@@ -35,6 +38,7 @@ public class PotalController : MonoBehaviour
         player.transform.position = destination.position;
         playerRb.velocity = Vector2.zero;
         anim.Play("Portal Out");
+        audioManager.PlaySFX(audioManager.portalOut);
         yield return new WaitForSeconds(0.5f);
         playerRb.simulated = true;
     }

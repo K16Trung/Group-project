@@ -20,10 +20,10 @@ public class MovementController : MonoBehaviour
 
     Vector2 relativeTransform;
 
-    public ParticleController particleController;
-
     public bool isOnPlatform;
     public Rigidbody2D platformRb;
+
+    public ParticleController particleController;
 
     private void Awake()
     {
@@ -52,18 +52,18 @@ public class MovementController : MonoBehaviour
 
         if (isWallTouch)
         {
+            particleController.PlayParticle(ParticleController.Particles.touch, wallCheckPoint.position);
             Flip();
         }
     }
 
     public void Flip()
     {
-        particleController.PlayTouchParticle(wallCheckPoint.position);
         transform.Rotate(0, 180, 0);
         UpdateRelativeTransform();
     }
 
-    void UpdateRelativeTransform()
+    public void UpdateRelativeTransform()
     {
         relativeTransform = transform.InverseTransformVector(Vector2.one);
     }

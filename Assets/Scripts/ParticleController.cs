@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ParticleController : MonoBehaviour
@@ -16,13 +17,23 @@ public class ParticleController : MonoBehaviour
 
     float counter;
     bool isOnGround;
-    [Header("")]
+
+    [Header("Particles")]
     [SerializeField] ParticleSystem fallParticle;
     [SerializeField] ParticleSystem touchParticle;
+    [SerializeField] ParticleSystem dieParticle;
+
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     private void Start()
     {
         touchParticle.transform.parent = null;
+        dieParticle.transform.parent = null;
     }
 
     private void Update()
@@ -39,17 +50,37 @@ public class ParticleController : MonoBehaviour
         }
     }
 
-    public void PlayTouchParticle(Vector2 pos)
+    public void PlayParticle(Particles particle, Vector2 pos = default(Vector2))
     {
-        touchParticle.transform.position = pos;
-        touchParticle.Play();
+        switch (particle)
+        {
+            case Particles.touch:
+                audioManager.PlaySFX(audioManager.wallTouch);
+                touchParticle.transform.position = pos;
+                touchParticle.Play();
+                break;
+
+            case Particles.fall:
+                audioManager.PlaySFX(audioManager.wallTouch);
+                fallParticle.Play();
+                break;
+
+            case Particles.die:
+                audioManager.PlaySFX(audioManager.death);
+                dieParticle.transform.position = pos;
+                dieParticle.Play();
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Ground"))
         {
-            fallParticle.Play();
+            PlayParticle(Particles.fall);
             isOnGround = true;
         }
     }
@@ -59,5 +90,12 @@ public class ParticleController : MonoBehaviour
         {
             isOnGround = false;
         }
+    }
+
+    public enum Particles
+    {
+        touch,
+        fall,
+        die
     }
 }
