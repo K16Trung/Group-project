@@ -21,33 +21,14 @@ public class GameController : MonoBehaviour
     }
     private void Start()
     {
-        // Load the checkpoint position if it exists
-        if (PlayerPrefs.HasKey("CheckpointX") && PlayerPrefs.HasKey("CheckpointY"))
-        {
-            float x = PlayerPrefs.GetFloat("CheckpointX");
-            float y = PlayerPrefs.GetFloat("CheckpointY");
-            checkpointPos = new Vector2(x, y);
-            playerRotation = Quaternion.Euler(PlayerPrefs.GetFloat("CheckpointRotX"), PlayerPrefs.GetFloat("CheckpointRotY"), PlayerPrefs.GetFloat("CheckpointRotZ"));
-        }
-        else
-        {
-            checkpointPos = transform.position;
-            playerRotation = transform.rotation;
-        }
+        checkpointPos = transform.position;
+        playerRotation = transform.rotation;
     }
 
     public void UpdateCheckpoint(Vector2 pos)
     {
         checkpointPos = pos;
         playerRotation = transform.rotation;
-
-        // Save checkpoint position and rotation in PlayerPrefs
-        PlayerPrefs.SetFloat("CheckpointX", checkpointPos.x);
-        PlayerPrefs.SetFloat("CheckpointY", checkpointPos.y);
-        PlayerPrefs.SetFloat("CheckpointRotX", playerRotation.eulerAngles.x);
-        PlayerPrefs.SetFloat("CheckpointRotY", playerRotation.eulerAngles.y);
-        PlayerPrefs.SetFloat("CheckpointRotZ", playerRotation.eulerAngles.z);
-        PlayerPrefs.Save();
     }
 
     public void Die()

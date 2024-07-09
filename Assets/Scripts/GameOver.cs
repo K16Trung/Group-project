@@ -26,7 +26,7 @@ public class GameOver : MonoBehaviour
     public void Replay()
     {
         FindObjectOfType<GameController>().RespawnInstant();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameOverScreen.SetActive(false);
         Time.timeScale = 1;
         audioManager?.RestartMusic();
     }
