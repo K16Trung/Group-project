@@ -85,7 +85,7 @@ public class MovementController : MonoBehaviour
         {
             speedMultiplier += Time.deltaTime * acceleration;
         }
-        else if (!btnPressed && speedMultiplier > 0)
+        else if (!btnPressed && speedMultiplier > 0 )
         {
             speedMultiplier -= Time.deltaTime * acceleration;
             if (speedMultiplier < 0) speedMultiplier = 0;
