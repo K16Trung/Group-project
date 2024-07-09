@@ -1,24 +1,24 @@
 {
-    "name": "PlayerActions",
+    "name": "PlayerAction",
     "maps": [
         {
             "name": "Player",
-            "id": "236a2dda-e199-4ec6-b469-58e2d54df21c",
+            "id": "4f8ffe04-7a13-4cf0-acd3-c26a60a29f5f",
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
-                    "id": "4e63fbc6-1390-479b-b028-2533567dd1b7",
-                    "expectedControlType": "Vector2",
+                    "type": "Button",
+                    "id": "3c1075c6-27ac-4dbc-bd4f-e3ce75683c82",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "9896aa64-b98b-4e01-bed8-692dc1961815",
+                    "id": "729ec976-38f3-4153-bda6-b8a78b6269d3",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -29,8 +29,8 @@
                 },
                 {
                     "name": "",
-                    "id": "56f5f252-4981-4547-8007-5da4e6b569f9",
-                    "path": "<Keyboard>/d",
+                    "id": "76dcf525-ca59-4327-a388-64b65f30ae1a",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

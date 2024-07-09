@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class MovementController : MonoBehaviour
 {
+    private float horizontal;
+    private bool isFacingRight = true;
     Rigidbody2D rb;
-
-    [SerializeField] int speed;
-    float speedMultiplier;
+    private float speed = 8f;
 
     [Range(1, 10)]
     [SerializeField] float acceleration;
@@ -18,6 +19,7 @@ public class MovementController : MonoBehaviour
     public LayerMask wallLayer;
     public Transform wallCheckPoint;
 
+    float moveInput;
     Vector2 relativeTransform;
 
     public bool isOnPlatform;
@@ -33,62 +35,44 @@ public class MovementController : MonoBehaviour
     {
         UpdateRelativeTransform();
     }
+    private void Update()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        Flip();
+    }
 
     private void FixedUpdate()
     {
-        UpdateSpeedMultiplier();
-        float targerSpeed = speed * speedMultiplier * relativeTransform.x;
-        if (isOnPlatform)
+        Vector2 targetVelocity = new Vector2(horizontal * speed, rb.velocity.y);
+        if (isOnPlatform && platformRb != null)
         {
-            rb.velocity = new Vector2(targerSpeed + platformRb.velocity.x, rb.velocity.y);
+            targetVelocity += platformRb.velocity;
         }
 
-        else
-        {
-            rb.velocity = new Vector2(targerSpeed, rb.velocity.y);
-        }
+        rb.velocity = targetVelocity;
 
         isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.06f, 0.55f), 0, wallLayer);
 
         if (isWallTouch)
         {
             particleController.PlayParticle(ParticleController.Particles.touch, wallCheckPoint.position);
-            Flip();
+/*            Flip();*/
         }
     }
 
-    public void Flip()
+    private void Flip()
     {
-        transform.Rotate(0, 180, 0);
-        UpdateRelativeTransform();
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+            UpdateRelativeTransform();
+        }
     }
-
     public void UpdateRelativeTransform()
     {
         relativeTransform = transform.InverseTransformVector(Vector2.one);
-    }
-    public void Move(InputAction.CallbackContext value)
-    {
-        if (value.started)
-        {
-            btnPressed = true;
-        }
-        else if (value.canceled)
-        {
-            btnPressed = false;
-        }
-    }
-
-    void UpdateSpeedMultiplier()
-    {
-        if (btnPressed && speedMultiplier < 1)
-        {
-            speedMultiplier += Time.deltaTime * acceleration;
-        }
-        else if (!btnPressed && speedMultiplier > 0 )
-        {
-            speedMultiplier -= Time.deltaTime * acceleration;
-            if (speedMultiplier < 0) speedMultiplier = 0;
-        }
     }
 }
