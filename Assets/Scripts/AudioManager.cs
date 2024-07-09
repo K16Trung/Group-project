@@ -18,20 +18,46 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        musicSource.clip = background;
-        musicSource.Play();
+        PlayBackgroundMusic();
+    }
+
+    public void PlayBackgroundMusic()
+    {
+        if (musicSource.clip != background || !musicSource.isPlaying)
+        {
+            musicSource.clip = background;
+            musicSource.Play();
+        }
     }
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip);
+        if (SFXSource != null && clip != null)
+        {
+            SFXSource.PlayOneShot(clip);
+        }
     }
     public void PauseMusic()
     {
-        musicSource.Pause();
+        if (musicSource != null)
+        {
+            musicSource.Pause();
+        }
     }
 
     public void ResumeMusic()
     {
-        musicSource.UnPause();
+        if (musicSource != null)
+        {
+            musicSource.UnPause();
+        }
+    }
+
+    public void RestartMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+            PlayBackgroundMusic();
+        }
     }
 }

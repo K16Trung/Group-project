@@ -11,25 +11,11 @@ public class PauseMenuScript : MonoBehaviour
 
     public static bool GameIsPaused = false;
 
-    private void Start()
+    public void PauseGame()
     {
         // Find the AudioManager in the scene
         audioManager = FindObjectOfType<AudioManager>();
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && GameIsPaused == false)
-        {
-            Time.timeScale = 0;
-            GameIsPaused = true;
-            pauseMenu.SetActive(true);
-        }
-        else if ((Input.GetKeyDown(KeyCode.Escape) && GameIsPaused == true))
-        {
-            Time.timeScale = 1;
-            GameIsPaused = false;
-            pauseMenu.SetActive(false);
-        }
+        Pause();
     }
 
     public void Home()
@@ -49,7 +35,7 @@ public class PauseMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
-        audioManager.ResumeMusic();
+        audioManager.RestartMusic();
     }
     void Pause()
     {

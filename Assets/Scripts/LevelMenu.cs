@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +8,7 @@ public class LevelMenu : MonoBehaviour
 {
     public Button[] Buttons;
     public GameObject levelButtons;
+    private AudioManager audioManager;
 
     private void Awake()
     {
@@ -21,11 +22,19 @@ public class LevelMenu : MonoBehaviour
         {
             Buttons[i].interactable = true;
         }
+        audioManager = FindObjectOfType<AudioManager>();
     }
     public void OpenLevel(int levelId)
     {
         string levelName = "Level " + levelId;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(levelName);
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+        audioManager.PlayBackgroundMusic();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     void ButtonsToArray()
     {
